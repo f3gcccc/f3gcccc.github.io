@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>题解：CF1956A Nene&#39;s Game | f3gcccc&#39;s blog</title>
+<meta name="description" content="f3gcccc&#39;s blog">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="https://f3gcccc.github.io/favicon.ico?v=1728217621561">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://unpkg.com/papercss@1.6.1/dist/paper.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://f3gcccc.github.io/styles/main.css">
+
+
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+  
+    <nav class="navbar border fixed split-nav">
+  <div class="nav-brand">
+    <h3><a href="https://f3gcccc.github.io">f3gcccc&#39;s blog</a></h3>
+  </div>
+  <div class="collapsible">
+    <input id="collapsible1" type="checkbox" name="collapsible1">
+    <button>
+      <label for="collapsible1">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </label>
+    </button>
+    <div class="collapsible-body">
+      <ul class="inline">
+        
+          <li>
+            
+              <a href="/" class="menu">
+                首页
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/archives" class="menu">
+                归档
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/tags" class="menu">
+                标签
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/post/about" class="menu">
+                关于
+              </a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div id="top" class="row site">
+      <div class="sm-12 md-8 col">
+        <div class="paper">
+          <article class="article">
+            <h1>题解：CF1956A Nene&#39;s Game</h1>
+            <p class="article-meta">
+              2024-09-25
+              
+            </p>
+            
+            <div class="post-content" v-pre>
+              <p>这道题其实挺有意思，多测里面还套了个多测。</p>
+<p>思路就是用向量模拟删除过程，具体请看代码里的注释。</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+int k,q,a[105];
+void solve()
+{
+	int n;
+	cin&gt;&gt;n;
+	vector&lt;int&gt; ve;
+	for(int i=1;i&lt;=n;i++) ve.push_back(i);//把每个人放到向量里面
+	while(!ve.size()&lt;a[1]) //当还可以删除时
+	{
+		int cnt=1;
+		/*
+		 * cnt的作用
+		 * 1. 把下标从0开始的ve与下标从1开始的a[]关联起来
+		 * 2. vector的erase会自动补齐空位
+		 * 如果没有cnt，第二次删除的则是错误的位置
+		 * 所以用cnt统计目前删除了多少个数
+		 * 
+		 * (cnt为什么初始是1? 请看第一条)
+		 *
+		*/
+		for(int i=1;i&lt;=k;i++) 
+			if(a[i]&lt;=ve.size()) //当还可以删除时
+			{
+				ve.erase(ve.begin()+a[i]-cnt); //则删除，此时用上了cnt
+				cnt++;//已删除+1
+			}
+	}
+	cout&lt;&lt;ve.size()&lt;&lt;&quot; &quot;;
+}
+void Solve()
+{
+	cin&gt;&gt;k&gt;&gt;q;
+	for(int i=1;i&lt;=k;i++) cin&gt;&gt;a[i];
+	sort(a+1,a+1+k); //排序是为了方便做这个 while(!ve.size()&lt;a[1])
+	while(q--) solve();//q次询问
+	cout&lt;&lt;endl;
+}
+int main()
+{
+	int t;
+	cin&gt;&gt;t;
+	while(t--) Solve();//t组数据
+	return 0;
+}
+</code></pre>
+
+            </div>
+          </article>
+        </div>
+        <div class="paper" data-aos="fade-in">
+          
+            <div class="next-post">
+              <div class="next">
+                下一篇
+              </div>
+              <a href="https://f3gcccc.github.io/post/yang-hui-san-jiao-xue-xi-bi-ji/">
+                <h3 class="post-title">
+                  杨辉三角学习笔记
+                </h3>
+              </a>
+            </div>
+          
+        </div>
+        
+      </div>
+
+      <div class="sm-12 md-4 col sidebar">
+  <div class="paper info-container">
+    <img src="https://f3gcccc.github.io/images/avatar.png?v=1728217621561" class="no-responsive avatar">
+    <div class="text-muted">f3gcccc's blog</div>
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      最新文章
+    </div>
+    <div class="row">
+      <ul>
+        
+          
+            <li>
+              <a href="https://f3gcccc.github.io/post/ti-jie-codeforces-1942b/">题解：CodeForces 1942B</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://f3gcccc.github.io/post/ti-jie-p6625-sheng-xuan-lian-kao-2020-b-juan-qia-pai-you-xi/">题解：P6625 [省选联考 2020 B 卷] 卡牌游戏</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://f3gcccc.github.io/post/about/">关于</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://f3gcccc.github.io/post/ti-jie-cf1956a-nenes-game/">题解：CF1956A Nene&#39;s Game</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://f3gcccc.github.io/post/yang-hui-san-jiao-xue-xi-bi-ji/">杨辉三角学习笔记</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://f3gcccc.github.io/post/ti-jie-cf1829h-dont-blame-me/">题解：CF1829H Don&#39;t Blame Me</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://f3gcccc.github.io/post/ti-jie-cf1256d-binary-string-minimizing/">题解：CF1256D Binary String Minimizing</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://f3gcccc.github.io/post/ti-jie-cf1830a-copil-copac-draws-trees/">题解：CF1830A Copil Copac Draws Trees</a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      标签列表
+    </div>
+    <div class="row">
+      
+    </div>
+  </div>
+  <div class="paper">
+    Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://f3gcccc.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+
+
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+</script>
+
+
+
+
+  </body>
+</html>

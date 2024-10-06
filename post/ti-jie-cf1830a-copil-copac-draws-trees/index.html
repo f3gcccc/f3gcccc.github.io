@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>题解：CF1830A Copil Copac Draws Trees | f3gcccc&#39;s blog</title>
+<meta name="description" content="f3gcccc&#39;s blog">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="shortcut icon" href="https://f3gcccc.github.io/favicon.ico?v=1728217621561">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="stylesheet" href="https://unpkg.com/papercss@1.6.1/dist/paper.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://f3gcccc.github.io/styles/main.css">
+
+
+<script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+  </head>
+  <body>
+  
+    <nav class="navbar border fixed split-nav">
+  <div class="nav-brand">
+    <h3><a href="https://f3gcccc.github.io">f3gcccc&#39;s blog</a></h3>
+  </div>
+  <div class="collapsible">
+    <input id="collapsible1" type="checkbox" name="collapsible1">
+    <button>
+      <label for="collapsible1">
+        <div class="bar1"></div>
+        <div class="bar2"></div>
+        <div class="bar3"></div>
+      </label>
+    </button>
+    <div class="collapsible-body">
+      <ul class="inline">
+        
+          <li>
+            
+              <a href="/" class="menu">
+                首页
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/archives" class="menu">
+                归档
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/tags" class="menu">
+                标签
+              </a>
+            
+          </li>
+        
+          <li>
+            
+              <a href="/post/about" class="menu">
+                关于
+              </a>
+            
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div id="top" class="row site">
+      <div class="sm-12 md-8 col">
+        <div class="paper">
+          <article class="article">
+            <h1>题解：CF1830A Copil Copac Draws Trees</h1>
+            <p class="article-meta">
+              2024-09-25
+              
+            </p>
+            
+            <div class="post-content" v-pre>
+              <p>首先这道题肯定不能暴力枚举，我们要思考其他算法。</p>
+<p>我们可以给每一条边编一个号。然后从根开始遍历这棵树，当一条边的编号比他祖先到他祖先的祖先的那条边的编号还要小时，就说明顺序错了，要再等一轮。</p>
+<p>这个就简单了，直接 dfs 就行，注意答案要加 <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>。</p>
+<pre><code class="language-cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+vector&lt;int&gt; to[200005],id[200005];
+
+int dfs(int x,int fa,int pre){ //x当前节点，fa上一个节点（因为是无向图），pre上一条边的编号
+    int res=0;
+    for(int i=0;i&lt;to[x].size();i++){
+        if(to[x][i]!=fa) res=max(res,dfs(to[x][i],x,id[x][i])+(id[x][i]&lt;pre)); //(id[x][i]&lt;pre)是一个布尔表达式，如果为真就加1
+    }
+    return res;
+}
+int main(){
+    int T; cin&gt;&gt;T;
+    while(T--){
+        int n; cin&gt;&gt;n;
+        for(int i=1;i&lt;=n;i++) to[i].clear(),id[i].clear(); //注意多测清空
+        for(int i=1;i&lt;n;i++){
+            int x,y;
+            cin&gt;&gt;x&gt;&gt;y;
+            to[x].push_back(y); to[y].push_back(x);
+            id[x].push_back(i); id[y].push_back(i); //给每一条边编号
+        }
+        cout&lt;&lt;dfs(1,0,0)+1&lt;&lt;'\n';
+    }
+    return 0;
+}
+</code></pre>
+
+            </div>
+          </article>
+        </div>
+        <div class="paper" data-aos="fade-in">
+          
+        </div>
+        
+      </div>
+
+      <div class="sm-12 md-4 col sidebar">
+  <div class="paper info-container">
+    <img src="https://f3gcccc.github.io/images/avatar.png?v=1728217621561" class="no-responsive avatar">
+    <div class="text-muted">f3gcccc's blog</div>
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      最新文章
+    </div>
+    <div class="row">
+      <ul>
+        
+          
+            <li>
+              <a href="https://f3gcccc.github.io/post/ti-jie-codeforces-1942b/">题解：CodeForces 1942B</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://f3gcccc.github.io/post/ti-jie-p6625-sheng-xuan-lian-kao-2020-b-juan-qia-pai-you-xi/">题解：P6625 [省选联考 2020 B 卷] 卡牌游戏</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://f3gcccc.github.io/post/about/">关于</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://f3gcccc.github.io/post/ti-jie-cf1956a-nenes-game/">题解：CF1956A Nene&#39;s Game</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://f3gcccc.github.io/post/yang-hui-san-jiao-xue-xi-bi-ji/">杨辉三角学习笔记</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://f3gcccc.github.io/post/ti-jie-cf1829h-dont-blame-me/">题解：CF1829H Don&#39;t Blame Me</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://f3gcccc.github.io/post/ti-jie-cf1256d-binary-string-minimizing/">题解：CF1256D Binary String Minimizing</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="https://f3gcccc.github.io/post/ti-jie-cf1830a-copil-copac-draws-trees/">题解：CF1830A Copil Copac Draws Trees</a>
+            </li>
+          
+        
+      </ul>
+    </div>
+  </div>
+  <div class="paper">
+    <div class="sidebar-title">
+      标签列表
+    </div>
+    <div class="row">
+      
+    </div>
+  </div>
+  <div class="paper">
+    Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://f3gcccc.github.io/atom.xml" target="_blank">RSS</a>
+  </div>
+</div>
+
+
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+</script>
+
+
+
+
+  </body>
+</html>
